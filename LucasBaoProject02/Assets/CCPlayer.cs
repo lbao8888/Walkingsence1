@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -5,6 +6,7 @@ using UnityEngine.UI;
 
 public class CCPlayer : MonoBehaviour
 {
+
     public float walkSpeed = 5;
     public float runSpeed = 9;
 
@@ -24,6 +26,8 @@ public class CCPlayer : MonoBehaviour
     private GameObject currentTarget;
     public Image reticleImage;
     private bool interactPressed;
+    public static event Action<NPCData> OnDialogueRequested;
+    private InspectorNameAttribute attribute;
 
     private bool isRunning;
     private bool isJumping;
@@ -182,5 +186,10 @@ public class CCPlayer : MonoBehaviour
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Debug.Log("CC Collided with: " + hit.gameObject.name);
+    }
+
+    public void RequestDialogue(NPCData npcData)
+    {
+        OnDialogueRequested?.Invoke(npcData);
     }
 }
